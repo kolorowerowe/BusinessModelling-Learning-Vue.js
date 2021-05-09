@@ -1,11 +1,15 @@
 <template>
-  <div id="mainDiv">
-    <LeftPanel :backendConfirmed="backendConfirmed"
-               :backendConfirmedUrl="backendConfirmedUrl"/>
-    <ConnectBackend v-if="!backendConfirmed"
-                    v-on:confirmBackend="confirmBackend"/>
-    <MainContent v-if="backendConfirmed"/>
-  </div>
+  <v-app id="app">
+    <v-main id="mainDiv">
+      <LeftPanel :backendConfirmed="backendConfirmed"
+                 :backendConfirmedUrl="backendConfirmedUrl"
+                 v-on:editBackend="editBackend"/>
+      <ConnectBackend v-if="!backendConfirmed"
+                      v-on:confirmBackend="confirmBackend"/>
+      <MainContent v-if="backendConfirmed"
+                   :backendConfirmedUrl="backendConfirmedUrl"/>
+    </v-main>
+  </v-app>
 
 </template>
 
@@ -23,9 +27,11 @@ export default {
   },
   methods: {
     confirmBackend: function (backendUrl) {
-      console.log("YES: ", backendUrl)
       this.backendConfirmed = true;
       this.backendConfirmedUrl = backendUrl;
+    },
+    editBackend: function () {
+      this.backendConfirmed = false;
     }
   },
   data() {

@@ -1,8 +1,21 @@
 <template>
   <div id="connectBackend">
     <h3>Enter your backend address</h3>
-    <input v-model="backendUrl" placeholder="edit me" class="backend-input">
-    <button @click="connectToBackend">Connect to backend</button>
+<!--    <v-text-field v-model="backendUrl"-->
+<!--                  placeholder="Edit me"-->
+<!--                  label="Backend URL"-->
+<!--    >-->
+<!--    </v-text-field>-->
+        <input v-model="backendUrl" placeholder="Enter back-end URL" class="backend-input">
+    <v-btn @click="connectToBackend"
+           class="text-white"
+           color="#34495E"
+    >
+      Connect to backend
+      <v-icon dark right>
+        mdi-checkbox-marked-circle
+      </v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -14,12 +27,13 @@ export default {
       backendUrl: ''
     }
   },
-  props: {
-    msg: String,
-  },
   methods: {
-    connectToBackend: function (){
-      this.$emit('confirmBackend', this.backendUrl)
+    connectToBackend: function () {
+      if (this.backendUrl) {
+        this.$emit('confirmBackend', this.backendUrl)
+      } else {
+        alert('Backend URL is empty');
+      }
     }
   }
 }
@@ -30,7 +44,14 @@ export default {
 #connectBackend {
   margin-left: 400px;
 }
+
 .backend-input {
-  margin-top: 10px;
+  min-width: 500px;
+  padding: 12px 20px;
+  margin: 8px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 </style>
