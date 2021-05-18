@@ -6,7 +6,7 @@
 <!--                  label="Backend URL"-->
 <!--    >-->
 <!--    </v-text-field>-->
-        <input v-model="backendUrl" placeholder="Enter back-end URL" class="backend-input">
+        <input v-model="backendUrl" placeholder="Enter back-end URL" class="input">
     <v-btn @click="connectToBackend"
            class="text-white"
            color="#34495E"

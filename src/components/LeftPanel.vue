@@ -1,16 +1,30 @@
 <template>
   <div id="leftPanel">
     <h1>Business Modeling App</h1>
+
     <p v-if="!backendConfirmed">Backend not confirmed</p>
-    <div v-if="backendConfirmed" class="div-inline">
+    <div v-else class="div-inline">
       <p>Backend URL: {{ backendConfirmedUrl }}</p>
       <v-btn @click="editBackend" icon color="white" small>
-        <v-icon >
+        <v-icon>
           mdi-backspace-outline
         </v-icon>
       </v-btn>
-
     </div>
+
+
+    <p v-if="!fileConfirmed">File not confirmed</p>
+    <div v-else class="div-inline">
+      <p>File confirmed</p>
+      <v-btn @click="editFile" icon color="white" small>
+        <v-icon>
+          mdi-backspace-outline
+        </v-icon>
+      </v-btn>
+    </div>
+
+
+
   </div>
 </template>
 
@@ -19,11 +33,15 @@ export default {
   name: 'LeftPanel',
   props: {
     backendConfirmed: Boolean,
-    backendConfirmedUrl: String
+    backendConfirmedUrl: String,
+    fileConfirmed: Boolean,
   },
   methods: {
     editBackend: function () {
       this.$emit('editBackend')
+    },
+    editFile: function () {
+      this.$emit('editFile')
     }
   }
 }
@@ -43,13 +61,9 @@ export default {
   padding: 10px
 
 }
+
 #leftPanel > h1 {
   color: #34495E;
   padding-bottom: 30px;
-}
-.div-inline {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
 }
 </style>
