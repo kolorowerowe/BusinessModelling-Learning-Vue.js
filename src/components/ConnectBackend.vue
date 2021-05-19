@@ -42,7 +42,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #connectBackend {
-  margin-left: 400px;
+  margin-left: 300px;
 }
 
 .backend-input {

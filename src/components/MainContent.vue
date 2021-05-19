@@ -32,7 +32,8 @@ export default {
   props: {
     backendConfirmedUrl: String,
     fileData: String,
-    columns: [String]
+    columns: [String],
+    minNodeValue: Number
   },
   methods: {
     onRefresh() {
@@ -51,7 +52,7 @@ export default {
 
         bodyFormdata.append('file', blob)
         bodyFormdata.append('columns', this.columns.join(','))
-        bodyFormdata.append('min_node_value', 9)
+        bodyFormdata.append('min_node_value', this.minNodeValue)
 
         axios
             .post(`${this.backendConfirmedUrl}/image`, bodyFormdata,
@@ -70,6 +71,11 @@ export default {
   },
   mounted() {
     this.fetchImage();
+  },
+  watch: {
+    minNodeValue: function () {
+      this.fetchImage();
+    }
   }
 }
 </script>
@@ -77,7 +83,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #mainContent {
-  margin-left: 400px;
+  margin-left: 300px;
 }
 
 #model_img {

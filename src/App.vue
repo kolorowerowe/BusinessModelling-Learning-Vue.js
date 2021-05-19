@@ -5,7 +5,8 @@
                  :backendConfirmedUrl="backendConfirmedUrl"
                  v-on:editBackend="editBackend"
                  :fileConfirmed="fileConfirmed"
-                 v-on:editFile="editFile"/>
+                 v-on:editFile="editFile"
+                 v-on:applyFilter="applyFilter"/>
       <ConnectBackend v-if="!backendConfirmed"
                       v-on:confirmBackend="confirmBackend"/>
 
@@ -16,6 +17,7 @@
                    :backendConfirmedUrl="backendConfirmedUrl"
                    :fileData="fileData"
                    :columns="columns"
+                   :minNodeValue="minNodeValue"
       />
     </v-main>
   </v-app>
@@ -52,6 +54,9 @@ export default {
     editFile: function () {
       this.fileConfirmed = false;
     },
+    applyFilter: function (minNodeValue) {
+      this.minNodeValue = minNodeValue;
+    },
   },
   data() {
     return {
@@ -59,7 +64,8 @@ export default {
       backendConfirmedUrl: '',
       fileConfirmed: false,
       fileData: undefined,
-      columns: ['Case ID', 'Activity', 'Start Timestamp']
+      columns: ['Case ID', 'Activity', 'Start Timestamp'],
+      minNodeValue: 0
     }
   }
 
