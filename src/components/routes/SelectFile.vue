@@ -1,5 +1,5 @@
 <template>
-  <div id="selectFile">
+  <div>
     <h3>Select your file</h3>
 
     <input type="file" @change="previewFile" accept="*.csv">
@@ -47,9 +47,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#selectFile {
-  margin-left: 300px;
-}
+
 
 
 </style>

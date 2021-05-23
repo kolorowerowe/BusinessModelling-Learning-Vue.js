@@ -1,42 +1,51 @@
 <template>
   <v-app id="app">
+
+    <LeftPanel :backendConfirmed="backendConfirmed"
+               :backendConfirmedUrl="backendConfirmedUrl"
+               v-on:editBackend="editBackend"
+               :fileConfirmed="fileConfirmed"
+               v-on:editFile="editFile"
+               v-on:applyFilter="applyFilter"
+               :route="route"
+               v-on:setRoute="setRoute"/>
+
     <v-main id="mainDiv">
-      <LeftPanel :backendConfirmed="backendConfirmed"
-                 :backendConfirmedUrl="backendConfirmedUrl"
-                 v-on:editBackend="editBackend"
-                 :fileConfirmed="fileConfirmed"
-                 v-on:editFile="editFile"
-                 v-on:applyFilter="applyFilter"/>
-      <ConnectBackend v-if="!backendConfirmed"
+      <Home v-if="route==='HOME'"/>
+
+      <ConnectBackend v-if="route === 'BACKEND'"
                       v-on:confirmBackend="confirmBackend"/>
 
-      <SelectFile v-else-if="!fileConfirmed"
+      <SelectFile v-if="route==='FILE'"
                   v-on:confirmFile="confirmFile"/>
 
-      <MainContent v-else
+      <ChartContent v-if="route==='CHART'"
                    :backendConfirmedUrl="backendConfirmedUrl"
                    :fileData="fileData"
                    :columns="columns"
                    :minNodeValue="minNodeValue"
       />
     </v-main>
+
   </v-app>
 
 </template>
 
 <script>
-import ConnectBackend from './components/ConnectBackend.vue';
+import ConnectBackend from './components/routes/ConnectBackend.vue';
 import LeftPanel from './components/LeftPanel.vue';
-import MainContent from './components/MainContent.vue';
-import SelectFile from "./components/SelectFile";
+import ChartContent from './components/routes/ChartContent.vue';
+import SelectFile from "./components/routes/SelectFile";
+import Home from "./components/routes/Home";
 
 export default {
   name: 'App',
   components: {
+    LeftPanel,
+    Home,
     SelectFile,
     ConnectBackend,
-    LeftPanel,
-    MainContent
+    ChartContent
   },
   methods: {
     confirmBackend: function (backendUrl) {
@@ -57,9 +66,13 @@ export default {
     applyFilter: function (minNodeValue) {
       this.minNodeValue = minNodeValue;
     },
+    setRoute: function (newRoute) {
+      this.route = newRoute;
+    }
   },
   data() {
     return {
+      route: 'HOME',
       backendConfirmed: false,
       backendConfirmedUrl: '',
       fileConfirmed: false,
@@ -88,7 +101,7 @@ export default {
 }
 
 #mainDiv {
-  display: flex;
+  margin-left: 250px;
 }
 
 .input {

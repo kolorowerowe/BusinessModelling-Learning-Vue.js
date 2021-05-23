@@ -1,11 +1,6 @@
 <template>
-  <div id="connectBackend">
+  <div>
     <h3>Enter your backend address</h3>
-<!--    <v-text-field v-model="backendUrl"-->
-<!--                  placeholder="Edit me"-->
-<!--                  label="Backend URL"-->
-<!--    >-->
-<!--    </v-text-field>-->
         <input v-model="backendUrl" placeholder="Enter back-end URL" class="input">
     <v-btn @click="connectToBackend"
            class="text-white"
@@ -41,9 +36,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#connectBackend {
-  margin-left: 300px;
-}
+
 
 .backend-input {
   min-width: 500px;

@@ -1,5 +1,25 @@
 <template>
-  <div id="mainContent">
+  <div>
+
+
+    <h3>
+      Filters
+    </h3>
+    <label>
+      Min node value
+      <input v-model="minNodeValue" placeholder="0" class="input" type="number" id="minNodeValueFilter">
+    </label>
+    <v-btn @click="applyFilters"
+           class="text-white"
+           color="#34495E"
+           icon
+    >
+      <v-icon dark right>
+        mdi-check
+      </v-icon>
+    </v-btn>
+
+
     <div class="div-inline">
       <h3>Here is your process</h3>
       <v-btn @click="onRefresh" icon color="white" small>
@@ -8,24 +28,29 @@
         </v-icon>
       </v-btn>
     </div>
-    <v-progress-circular
-        v-if="loading"
-        :size="50"
-        color="#34495E"
-        indeterminate
-    ></v-progress-circular>
+
+    <Alert v-if="!backendConfirmedUrl" msg="Connect to the backend first!"></Alert>
+    <Alert v-if="!fileData" msg="Please select csv file to process."></Alert>
+
+    <p v-if="loading">
+      Loading...
+    </p>
+
     <img v-if="!loading && !!imageBase64Data" v-bind:src="imageBase64Data" alt="Business model" id="model_img">
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Alert from "../generic/Alert";
 
 export default {
-  name: 'MainContent',
+  name: 'ChartContent',
+  components: {Alert},
   data() {
     return {
       imageBase64Data: undefined,
+      minNodeValue: 0,
       loading: false
     }
   },
@@ -33,7 +58,6 @@ export default {
     backendConfirmedUrl: String,
     fileData: String,
     columns: [String],
-    minNodeValue: Number
   },
   methods: {
     onRefresh() {
@@ -82,9 +106,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#mainContent {
-  margin-left: 300px;
-}
+
+main
 
 #model_img {
   margin-left: auto;
