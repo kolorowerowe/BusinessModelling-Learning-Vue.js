@@ -9,34 +9,22 @@
       Min node value
       <input v-model="minNodeValue" placeholder="0" class="input" type="number" id="minNodeValueFilter">
     </label>
-    <v-btn @click="applyFilters"
-           class="text-white"
-           color="#34495E"
-           icon
-    >
-      <v-icon dark right>
-        mdi-check
-      </v-icon>
-    </v-btn>
 
 
     <div class="div-inline">
       <h3>Here is your process</h3>
-      <v-btn @click="onRefresh" icon color="white" small>
-        <v-icon>
-          mdi-backspace-outline
-        </v-icon>
-      </v-btn>
     </div>
 
-    <Alert v-if="!backendConfirmedUrl" msg="Connect to the backend first!"></Alert>
-    <Alert v-if="!fileData" msg="Please select csv file to process."></Alert>
+    <Alert v-if="!backendConfirmedUrl" msg="Connect to the backend first!" severity="warning"></Alert>
+    <Alert v-if="!fileData" msg="Please select csv file to process." severity="warning"></Alert>
+
+    <Alert v-if="!!error" :msg="error.message" severity="error"></Alert>
 
     <p v-if="loading">
       Loading...
     </p>
 
-    <img v-if="!loading && !!imageBase64Data" v-bind:src="imageBase64Data" alt="Business model" id="model_img">
+    <img v-if="!loading && !error && !!imageBase64Data" v-bind:src="imageBase64Data" alt="Business model" id="model_img">
   </div>
 </template>
 
@@ -51,19 +39,18 @@ export default {
     return {
       imageBase64Data: undefined,
       minNodeValue: 0,
-      loading: false
+      loading: false,
+      error: null
     }
   },
   props: {
     backendConfirmedUrl: String,
     fileData: String,
-    columns: [String],
+    columnsConfirmed: String,
   },
   methods: {
-    onRefresh() {
-
-    },
     fetchImage() {
+      this.error = null;
       if (this.backendConfirmedUrl) {
 
         this.loading = true;
@@ -75,8 +62,8 @@ export default {
 
 
         bodyFormdata.append('file', blob)
-        bodyFormdata.append('columns', this.columns.join(','))
-        bodyFormdata.append('min_node_value', this.minNodeValue)
+        bodyFormdata.append('columns', this.columnsConfirmed)
+        bodyFormdata.append('min_node_value', this.minNodeValue ? this.minNodeValue : 0)
 
         axios
             .post(`${this.backendConfirmedUrl}/image`, bodyFormdata,
@@ -85,7 +72,9 @@ export default {
             .then(response => {
               let returnedB64 = Buffer.from(response.data).toString('base64');
               this.imageBase64Data = `data:image/png;base64, ${returnedB64}`;
-              this.imageReady = true;
+            })
+            .catch(err => {
+              this.error = err;
             })
             .finally(() => {
               this.loading = false;
@@ -107,7 +96,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-main
 
 #model_img {
   margin-left: auto;

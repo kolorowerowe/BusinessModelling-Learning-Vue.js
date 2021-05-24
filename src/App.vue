@@ -14,15 +14,17 @@
       <Home v-if="route==='HOME'"/>
 
       <ConnectBackend v-if="route === 'BACKEND'"
-                      v-on:confirmBackend="confirmBackend"/>
+                      v-on:confirmBackend="confirmBackend"
+                      :backendConfirmedUrl="backendConfirmedUrl"/>
 
       <SelectFile v-if="route==='FILE'"
-                  v-on:confirmFile="confirmFile"/>
+                  v-on:confirmFile="confirmFile"
+                  :columnsConfirmed="columnsConfirmed"/>
 
       <ChartContent v-if="route==='CHART'"
                    :backendConfirmedUrl="backendConfirmedUrl"
                    :fileData="fileData"
-                   :columns="columns"
+                   :columnsConfirmed="columnsConfirmed"
                    :minNodeValue="minNodeValue"
       />
     </v-main>
@@ -55,9 +57,9 @@ export default {
     editBackend: function () {
       this.backendConfirmed = false;
     },
-    confirmFile: function (fileData, columns) {
+    confirmFile: function (fileData, columnsConfirmed) {
       this.fileData = fileData;
-      this.columns = columns;
+      this.columnsConfirmed = columnsConfirmed;
       this.fileConfirmed = true
     },
     editFile: function () {
@@ -77,7 +79,7 @@ export default {
       backendConfirmedUrl: '',
       fileConfirmed: false,
       fileData: undefined,
-      columns: ['Case ID', 'Activity', 'Start Timestamp'],
+      columnsConfirmed: 'Case ID,Activity,Start Timestamp',
       minNodeValue: 0
     }
   }
