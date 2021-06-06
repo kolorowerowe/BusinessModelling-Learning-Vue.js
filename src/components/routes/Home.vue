@@ -2,7 +2,7 @@
   <h1>Welcome to Business Modeling App</h1>
 
   <p>
-    Here you can visualise
+    Here you can visualise your business process.
   </p>
 
   <h3>
